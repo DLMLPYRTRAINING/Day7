@@ -10,11 +10,6 @@ head(data1)
 str(data1)
 
 summary(data1)
-head(data1)
-
-str(data1)
-
-summary(data1)
 
 # Split into Train and Validation sets
 # Training Set : Validation Set = 70 : 30 (random)
