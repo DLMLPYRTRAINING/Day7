@@ -108,7 +108,7 @@ summary(linearMod)  # model summary
 # How to know if the model is best fit for your data?
 # The most common metrics to look at while selecting the model are:
   
-  # STATISTIC	CRITERION
+# STATISTIC	CRITERION
 # R-Squared ->	Higher the better (> 0.70)
 # Adj R-Squared ->	Higher the better
 # F-Statistic ->	Higher the better

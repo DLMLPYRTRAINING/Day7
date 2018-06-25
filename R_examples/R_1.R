@@ -27,7 +27,7 @@ install.packages("car")  # install car package
 library(car)  # initialize the pkg 'car'
 require(car)  # another way to initialize
 library()  # see list of all installed packages
-library(help=car)  # see info about 'car' pkg
+library(help=dplyr)  # see info about 'car' pkg
 
 # Getting Help
 
@@ -35,6 +35,8 @@ help(merge)  # get help page for 'merge'
 ?merge  # lookup 'merge' from installed pkgs
 ??merge  # vague search
 example(merge)  # show code examples
+
+# ctrl+L to clean the console
 
 # What is a working directory and how to set up one?
 
@@ -50,6 +52,7 @@ getwd()  # gets the working directory
 setwd(dirname)  # set the working directory to dir name
 
 # How to import and export data?
+read.csv
 
 myData <- read.table("C:/Users/SKL/Documents/DLMLPYRTRAINING/Day7/data/data2.csv", header = TRUE, sep=",", 
                      colClasses=c("integer","character","numeric")) 
@@ -83,7 +86,7 @@ vec1 <- c(10, 20, 15, 40)  # numeric vector
 vec2 <- c("a", "b", "c", NA)  # character vector
 vec3 <- c(TRUE, FALSE, TRUE, TRUE)  # logical vector
 vec4 <- gl(4, 1, 4, label = c("l1", "l2", "l3", "l4"))  # factor with 4 levels
-
+vec5 <- c(1,"B",TRUE)
 
 # How to reference elements of a vector?
 
@@ -117,7 +120,7 @@ vec1[rev(order(vec1))]  # descending sort
 
 seq(1, 10, by = 2)  # diff between adj elements is 2
 seq(1, 10, length=25)  # length of the vector is 25
-rep(1, 5)  # repeat 1, five times.
+rep(2, 5)  # repeat 1, five times.
 rep(1:3, 5)  # repeat 1:3, 5 times
 rep(1:3, each=5)  # repeat 1 to 3, each 5 times.
 
@@ -126,11 +129,11 @@ rep(1:3, each=5)  # repeat 1 to 3, each 5 times.
 vec2 <- c("a", "b", "c", NA)  # character vector
 is.na(vec2)  # missing TRUE
 !is.na(vec2)  # missing FALSE
-vec2[!is.na(vec2)]  # return non missing values from vec2
+vec2 <- vec2[!is.na(vec2)]  # return non missing values from vec2
 
 # Sampling
 
-set.seed(100)  # optional. set it to get same random samples.
+set.seed(1)  # optional. set it to get same random samples.
 sample(vec1)  # sample all elements randomly
 sample(vec1, 3)  # sample 3 elem without replacement
 sample(vec1, 10, replace=T)  # sample with replacement
@@ -170,7 +173,7 @@ rbind(myDf1, myDf1)  # row append DFs with same no. columns
 
 myDf1$vec1  # vec1 column
 myDf1[, 1]  # df[row.num, col.num]
-myDf1[, c(1,2)]  # columns 1 and 3
+myDf2[, c(1,3)]  # columns 1 and 3
 myDf1[c(1:5), c(2)]  # first 5 rows in column 2
 
 # Below is a code that drops the Temp column from airquality data frame 
@@ -185,8 +188,8 @@ airquality[which(airquality$Day==1), -c(4)]  # same as above
 
 set.seed(100)
 trainIndex <- sample(c(1:nrow(airquality)), size=nrow(airquality)*0.7, replace=F)  # get test sample indices
-airquality[trainIndex, ]  # training data
-airquality[-trainIndex, ]  # test data
+training <- airquality[trainIndex, ]  # training data
+test <- airquality[-trainIndex, ]  # test data
 
 # Merging Dataframes
 
@@ -200,7 +203,7 @@ df2 = data.frame(StudentNum = c(2, 4, 6, 12), Sport = sample(c("Football", "Tenn
 
 paste("a", "b")  # "a b"
 paste0("a", "b")  # concatenate without space, "ab"
-paste("a", "b", sep="")  # same as paste0
+paste("a", "b", sep="*")  # same as paste0
 paste(c(1:4), c(5:8), sep="")  # "15" "26" "37" "48"
 paste(c(1:4), c(5:8), sep="", collapse="")  # "15263748"
 paste0(c("var"), c(1:5))  # "var1" "var2" "var3" "var4" "var5"
@@ -268,14 +271,14 @@ myList[3]  # level 1
 
 myList[[3]]  # level 2: access the vec3 directly
 #=> [1] TRUE FALSE TRUE TRUE
-myList[[3]][3]  # 3rd elem of vec3
+myList[[2]][3]  # 3rd elem of vec3
 #=> [1] TRUE
 lapply(myList, length)  # length of each element as a list
 
 # Unlisting
 
 # unlist()  # flattens out into a one-level list.
-unlist(myList)  # flattens out
+unlist(myList)[7]  # flattens out
 
 # If-Else
 
@@ -292,6 +295,8 @@ if(checkConditionIfTrue) {
 # Where ever possible it is recommended to use one of 
 # apply family functions for loops. However the knowledge is essential.
 
+
+n <- 10
 for(counterVar in c(1:n)){
   # .... statements..
 }
@@ -309,7 +314,7 @@ myData <- matrix(seq(1,16), 4, 4)  # make a matrix
 apply(myData, 1, FUN=min)  # apply 'min' by rows
 #=> [1] 1 2 3 4
 
-apply(myData, 2, FUN=min)  # apply 'min' by columns
+apply(myData, 2, FUN=max)  # apply 'max' by columns
 #=> [1] 4 8 12 16
 
 apply(data.frame(1:5), 1, FUN=function(x) {x^2})  # square of 1,2,3,4,5
@@ -317,7 +322,7 @@ apply(data.frame(1:5), 1, FUN=function(x) {x^2})  # square of 1,2,3,4,5
 
 # lapply(): Apply FUN to each element in a list(or) to columns of a data frame and return the result as a list
 
-lapply(airquality, class)  # return classes of each column in 'airquality' in a list
+list1 <- lapply(airquality, class)  # return classes of each column in 'airquality' in a list
 
 # sapply(): Apply FUN to each element of a list(or) to columns of a data frame and return the result as a vector.
 
